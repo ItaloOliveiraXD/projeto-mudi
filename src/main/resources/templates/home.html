@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="~{base :: head('Home')}" ></head>
+
+<body>
+
+	<div th:replace="~{base :: logo}"></div>
+
+	<div class="container">
+	
+		<div th:replace="~{base :: titulo('Meus Pedidos')}"></div>
+
+		<nav class="navbar navbar-expand navbar-light bg-light d-flex justify-content-between mb-3">
+
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav">
+					<li th:classappend="${status} == null ? active" class="nav-item "><a class="nav-link" href="/home">Todos</a></li>
+					<li th:classappend="${status} == aguardando ? active" class="nav-item"><a class="nav-link" href="/home/aguardando">Aguardando</a></li>
+					<li th:classappend="${status} == aprovado ? active" class="nav-item"><a class="nav-link" href="/home/aprovado">Aprovado</a></li>
+					<li th:classappend="${status} == entregue ? active" class="nav-item"><a class="nav-link" href="/home/entregue">Entregue</a></li>
+				</ul>
+			</div>
+			
+			<a href="/pedido/formulario"><button class="btn btn-outline-secondary my-2 my-sm-0">Novo</button></a>
+
+		</nav>
+
+
+		<div class="card mb-3" th:each=" pedido : ${pedidos}">
+			
+			<th:block th:switch="${pedido.status.name()}">
+				<div th:case="AGUARDANDO" class="card-header alert-warning" th:text="${pedido.nomeProduto}">Nome do produto</div>
+				<div th:case="APROVADO" class="card-header alert-success" th:text="${pedido.nomeProduto}">Nome do produto</div>
+				<div th:case="ENTREGUE" class="card-header alert-dark" th:text="${pedido.nomeProduto}">Nome do produto</div>
+			
+			<div class="card-body row">
+
+				<div class="col-12 col-md-6 mb-3">
+					<div class="row p-2">
+						<div class="col-md-4 mb-2">
+							Valor: <span th:if="${pedido.valor} != null" th:text="${'R$ ' + #numbers.formatDecimal(pedido.valor,3,'POINT',2,'COMMA')}">200,99</span>
+						</div>
+						<div class="col-md-8 ">
+							Data da entrega: <span th:text="${ #temporals.format(pedido.dataDaEntrega , 'dd/MM/yyyy')}">25/04/2023</span>
+						</div>
+					</div>
+					<div>
+						<label class="p-2" for="exampleFormControlInput1">Produto</label>
+						<input class="form-control" id="exampleFormControlInput1"
+							th:value="${ pedido.urlProduto }" value="url do produto">
+					</div>
+					<div>
+						<label class="p-2" for="exampleFormControlInput1">Descrição</label>
+						<textarea class="form-control" id="exampleFormControlInput1"
+							th:text="${ pedido.descricao }">Descrição do produto</textarea>
+					</div>
+				</div>
+
+				<div class="col-12 col-md-6">
+					<div>
+						<img class="img-thumbnail" th:src="${ pedido.urlImagem }" src=""
+							alt="">
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>
