@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import br.com.projeto.mudi.dto.NovoPedidoDto;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -37,5 +38,14 @@ public class Pedido {
 
 	@Enumerated(EnumType.STRING)
 	private StatusPedido status;
+	
+	public Pedido(NovoPedidoDto novoPedidoDto) {
+		
+		this.nomeProduto = novoPedidoDto.nomeProduto();
+		this.urlProduto = novoPedidoDto.urlProduto();
+		this.urlImagem = novoPedidoDto.urlImagem();
+		this.descricao = novoPedidoDto.descricao();
+		this.status = StatusPedido.AGUARDANDO;
+	}
 
 }
