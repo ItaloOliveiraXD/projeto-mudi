@@ -1,5 +1,6 @@
 package br.com.projeto.mudi.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,9 @@ public class HomeController {
 	private PedidoRepository pedidoRepository;
 
 	@GetMapping
-	public ModelAndView home() {
+	public ModelAndView home(Principal principal) {
 
-		List<Pedido> pedidos = pedidoRepository.findAll();
+		List<Pedido> pedidos = pedidoRepository.findAllByUsuario(principal.getName());
 
 		ModelAndView mv = new ModelAndView("home");
 
