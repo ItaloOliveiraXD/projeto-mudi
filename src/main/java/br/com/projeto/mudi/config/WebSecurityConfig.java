@@ -6,8 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
@@ -19,14 +17,14 @@ public class WebSecurityConfig {
 	
 	@Bean
 	UserDetailsManager users(DataSource dataSource) {
-		UserDetails user = User.builder()
-			.username("user")
-			.password(passwordEncoder().encode("user"))
-			.roles("ADM")
-			.build();
+//		UserDetails user = User.builder()
+//			.username("user")
+//			.password(passwordEncoder().encode("user"))
+//			.roles("ADM")
+//			.build();
 		
 		JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
-		users.createUser(user);
+//		users.createUser(user);
 		
 		return users;
 	}
@@ -40,14 +38,20 @@ public class WebSecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 			.authorizeHttpRequests()
+				.antMatchers("/home/**").permitAll()
+				.antMatchers("/usuario/novoCadastro").permitAll()
+				.antMatchers("/usuario/cadastraUsuario").permitAll()
 				.anyRequest().authenticated()
 			.and()
 				.formLogin((form) -> form
 					.loginPage("/login")
-					.defaultSuccessUrl("/home", true)
+					.defaultSuccessUrl("/usuario/pedidos", true)
 					.permitAll()
 				)
-				.logout((logout) -> logout.permitAll())
+				.logout((logout) -> {
+						logout.logoutUrl("/logout")
+						.logoutSuccessUrl("/home");
+					})
 				.csrf().disable();
 
 		return http.build();

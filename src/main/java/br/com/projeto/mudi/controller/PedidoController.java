@@ -46,6 +46,6 @@ public class PedidoController {
 		User user = userRepository.findByUsername(usuario);
 		pedidoRepository.save(new Pedido(novoPedidoDto, user));
 
-		return "redirect:/home";
+		return "redirect:/usuario/pedidos";
 	}
 }

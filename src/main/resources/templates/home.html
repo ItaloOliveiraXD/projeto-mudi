@@ -8,30 +8,11 @@
 
 	<div class="container">
 	
-		<div th:replace="~{base :: titulo('Meus Pedidos')}"></div>
+		<div th:replace="~{base :: titulo('Últimos Pedidos')}"></div>
 
-		<nav class="navbar navbar-expand navbar-light bg-light d-flex justify-content-between mb-3">
-
-			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav">
-					<li th:classappend="${status} == null ? active" class="nav-item "><a class="nav-link" href="/home">Todos</a></li>
-					<li th:classappend="${status} == aguardando ? active" class="nav-item"><a class="nav-link" href="/home/aguardando">Aguardando</a></li>
-					<li th:classappend="${status} == aprovado ? active" class="nav-item"><a class="nav-link" href="/home/aprovado">Aprovado</a></li>
-					<li th:classappend="${status} == entregue ? active" class="nav-item"><a class="nav-link" href="/home/entregue">Entregue</a></li>
-				</ul>
-			</div>
+		<div class="card my-3" th:each=" pedido : ${pedidos}">
 			
-			<a href="/pedido/formulario"><button class="btn btn-outline-secondary my-2 my-sm-0">Novo</button></a>
-
-		</nav>
-
-
-		<div class="card mb-3" th:each=" pedido : ${pedidos}">
-			
-			<th:block th:switch="${pedido.status.name()}">
-				<div th:case="AGUARDANDO" class="card-header alert-warning" th:text="${pedido.nomeProduto}">Nome do produto</div>
-				<div th:case="APROVADO" class="card-header alert-success" th:text="${pedido.nomeProduto}">Nome do produto</div>
-				<div th:case="ENTREGUE" class="card-header alert-dark" th:text="${pedido.nomeProduto}">Nome do produto</div>
+			<div class="card-header alert-dark" th:text="${pedido.nomeProduto}">Nome do produto</div>
 			
 			<div class="card-body row">
 
