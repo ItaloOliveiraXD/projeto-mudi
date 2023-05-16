@@ -36,23 +36,23 @@ public class WebSecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http
-			.authorizeHttpRequests()
-				.antMatchers("/home/**").permitAll()
-				.antMatchers("/usuario/novoCadastro").permitAll()
-				.antMatchers("/usuario/cadastraUsuario").permitAll()
-				.anyRequest().authenticated()
-			.and()
-				.formLogin((form) -> form
-					.loginPage("/login")
-					.defaultSuccessUrl("/usuario/pedidos", true)
-					.permitAll()
-				)
-				.logout((logout) -> {
-						logout.logoutUrl("/logout")
-						.logoutSuccessUrl("/home");
-					})
-				.csrf().disable();
+        http
+                .authorizeHttpRequests()
+                .antMatchers("/home/**").permitAll()
+                .antMatchers("/usuario/novoCadastro").permitAll()
+                .antMatchers("/usuario/cadastraUsuario").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin((form) -> form
+                                .loginPage("/login")
+                                .defaultSuccessUrl("/usuario/pedidos", true)
+                                .permitAll()
+                )
+                .logout((logout) -> {
+                    logout.logoutUrl("/logout")
+                            .logoutSuccessUrl("/home");
+                })
+                .csrf().disable();
 
 		return http.build();
 	}

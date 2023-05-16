@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import br.com.projeto.mudi.dto.NovoPedidoDto;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -42,6 +44,7 @@ public class Pedido {
 	private StatusPedido status;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonBackReference
 	private User user;
 	
 	public Pedido(NovoPedidoDto novoPedidoDto, User user) {

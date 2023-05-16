@@ -23,13 +23,13 @@ public class CadastroUsuarioController {
 	}
 
 	@PostMapping("/cadastraUsuario")
-    public String cadastrar(@Valid CadastroDto cadastroDto, BindingResult resultado, Model model) {
+	public String cadastrar(@Valid CadastroDto cadastroDto, BindingResult resultado, Model model) {
 
 		if (resultado.hasErrors()) {
 			return "/usuario/cadastroUsuario";
 		}
-		
+
 		System.out.println(cadastroDto.password());
-        return "redirect:/usuario/novoCadastro";
-    }
+		return "redirect:/usuario/novoCadastro";
+	}
 }

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="~{base :: head('Home')}"></head>
+
+<body onload="onLoad()">
+
+	<div th:replace="~{base :: logo}"></div>
+
+	<div class="container" id="ofertas">
+
+		<div th:replace="~{base :: titulo('Faça uma oferta')}"></div>
+
+<div class="card my-3" v-for="pedido in pedidos">
+
+            <div class="card-header alert-warning">{{pedido.nomeProduto}}</div>
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-sm-8 mb-3">
+                        <div class="row">
+                            <div class="col-md-5">Valor: <input/></div>
+                            <div class="col-md-7">Data de Entrega: <input/></div>
+                        </div>
+
+                        <div class="mt-3">Produto</div>
+                        <div><a v-bind:href="pedido.urlProduto">{{pedido.nomeProduto}}</a></div>
+
+                        <div class="mt-3">Descrição</div>
+                        <div>
+                            <p class="form-control mt-2">{{pedido.descricao}}</p>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-4">
+                        <div>
+                            <img class="img-thumbnail" v-bind:src="pedido.urlImagem">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<script>
+		function onLoad() {
+			var app = new Vue(
+					{
+						el : '#ofertas',
+						data () {
+							return {
+								pedidos : []
+							}
+								
+						},
+						mounted() {
+							axios
+						      .get('http://localhost:8080/api/pedidos/aguardando')
+						      .then(response => (this.pedidos = response.data))
+						}
+					})
+
+		}
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+	<script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+
+</body>
+</html>
